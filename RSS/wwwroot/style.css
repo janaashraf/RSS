@@ -1,0 +1,40 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+}
+
+.loginBtn {
+    position: relative; /* Ensure content is positioned relative to the container */
+    z-index: 1; /* Ensure content appears above the overlay */
+    border: 1px;
+}
+
+.background {
+    background-image: url('ivan-davydenko-jmLi0D6MBGw-unsplash.jpg'); /* Path to your background image */
+    background-size: cover; /* Cover the entire container */
+    background-position: top; /* Align background image to the top */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .background::after {
+        content: ''; /* Required for pseudo-element */
+        position: absolute; /* Position the overlay absolutely */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.769); /* Adjust overlay color and opacity */
+    }
+
+.z {
+    position: relative; /* Ensure content is positioned relative to the container */
+    z-index: 1;
+}
