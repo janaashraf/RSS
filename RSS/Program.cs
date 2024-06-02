@@ -6,14 +6,9 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.ServiceModel.Syndication;
 using System.Xml;
-
 var builder = WebApplication.CreateBuilder(args);
-//comm
 var connectionString = "Data Source=./wwwroot/database.db;";
 builder.Services.AddSingleton<IDbConnection>(_ => new SqliteConnection(connectionString));
-
-
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -31,7 +26,6 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseRouting();
-
 
 using (var connection = new SqliteConnection(connectionString))
 {
@@ -217,7 +211,6 @@ app.MapPost("/add-user", async (HttpContext context, IDbConnection db) =>
     }
 });
 
-
 // Add an RSS/ATOM feed
 app.MapPost("/add-feed", async (HttpContext context, IDbConnection db) =>
 {
@@ -234,7 +227,6 @@ app.MapPost("/add-feed", async (HttpContext context, IDbConnection db) =>
             var successHtml = "<div class='text-success'>Feed added successfully!</div>";
             context.Response.Headers["HX-Redirect"] = "/";
             return Results.Content(successHtml, "text/html");
-
     }
     else
     {
@@ -242,7 +234,6 @@ app.MapPost("/add-feed", async (HttpContext context, IDbConnection db) =>
        // context.Response.Headers["HX-Redirect"] = "/";
         return Results.Content(successHtml, "text/html");
     }
-
 });
 
 
@@ -255,7 +246,6 @@ app.MapGet("/get-feeds/{userId}", async (HttpContext context, IDbConnection db) 
         <h2 class=""text-center"">Your RSS Feeds</h2>
         <div id=""feeds-list"" class=""text-center"">
     ";
-   
     foreach (var feed in feeds)
     {
         feedsHtml += $@"
@@ -267,7 +257,6 @@ app.MapGet("/get-feeds/{userId}", async (HttpContext context, IDbConnection db) 
 </div>
         ";
     }
-
     feedsHtml += @"
         </div>
    <div id=""news-container"" class=""mt-4""></div>
@@ -275,7 +264,6 @@ app.MapGet("/get-feeds/{userId}", async (HttpContext context, IDbConnection db) 
 
     return Results.Content(feedsHtml, "text/html");
 });
-
 
 app.MapPost("/delete-feed/{userId}/{feedId}", async (HttpContext context, IDbConnection db) =>
 {
@@ -344,21 +332,12 @@ app.MapGet("/fetch-news/{feedId}", async (HttpContext context, IDbConnection db)
     return Results.Content(newsHtml, "text/html");
 });
 
-
-
-
 // Endpoint to logout
 app.MapPost("/logout", async (HttpContext context) =>
 {
     await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     context.Response.Headers["HX-Redirect"] = "/";
 });
-
-
-
-
-
-
 
 app.Run();
 public class user
